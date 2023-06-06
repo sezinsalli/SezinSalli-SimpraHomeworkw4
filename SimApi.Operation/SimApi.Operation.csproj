@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimApi.Base\SimApi.Base.csproj" />
+    <ProjectReference Include="..\SimApi.Data\SimApi.Data.csproj" />
+    <ProjectReference Include="..\SimApi.Schema\SimApi.Schema.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimApi.Data\SimApi.Data.csproj" />
+  </ItemGroup>
+
 </Project>

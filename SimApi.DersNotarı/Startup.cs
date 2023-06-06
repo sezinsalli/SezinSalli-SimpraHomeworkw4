@@ -7,7 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SimApi.Base.Jwt;
+using SimApi.Data.UnitOfWork;
 using SimApi.DersNotarı.Extensions;
+using SimApi.sDersNotarı.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +26,7 @@ namespace SimApi.DersNotarı
         }
 
         public IConfiguration Configuration { get; }
-
+        public static JwtConfig JwtConfig { get; private set; }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,7 +35,11 @@ namespace SimApi.DersNotarı
             //1.adım için
             services.AddCustomSwaggerExtension();
             services.AddDbContextExtension(Configuration);
-
+            services.AddScoped<IUnitofWork,UnitOfWork>();
+            services.AddMapperExtension();
+            services.AddRepositoryExtension();
+            services.AddServiceExtension();
+            services.AddJwtExtension();
 
         }
 

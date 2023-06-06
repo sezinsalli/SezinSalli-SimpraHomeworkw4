@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  simpraDB:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: simpraDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password12*
+    volumes:
+      - ./data:/var/lib/postgresql/data
