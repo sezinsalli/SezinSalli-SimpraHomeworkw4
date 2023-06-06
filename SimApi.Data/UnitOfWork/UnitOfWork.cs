@@ -2,6 +2,7 @@
 using SimApi.Data.Context;
 using SimApi.Data.Domain;
 using SimApi.Data.Repository;
+using SimApi.Data.Repository.Dapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +13,39 @@ namespace SimApi.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitofWork
     {
-        public IGenericRepository<Category> CategoryRepository { get; private set; }
+        
         
 
 
-
-        private readonly SimDbContext dbContext;        
+        private readonly SimDbContext dbContext;
+        private readonly SimDapperDbContext dapperDbContext;
         private bool disposed;
 
-        public UnitOfWork(SimDbContext dbContext)
+        public UnitOfWork(SimDbContext dbContext, SimDapperDbContext dapperDbContex)
         {
             this.dbContext = dbContext;
+            this.dapperDbContext = dapperDbContex;
 
-
-            CategoryRepository = new GenericRepository<Category>(dbContext);
             
+           
         }
+
+        public IDapperRepository<Entity> DapperRepository<Entity>() where Entity : BaseModel
+        {
+            return new DapperRepository<Entity>(dapperDbContext);
+        }
+
         public IGenericRepository<Entity> Repository<Entity>() where Entity : BaseModel
         {
             return new GenericRepository<Entity>(dbContext);
         }
-
         public void Complete()
         {
-            //tek 1 işlem için
             dbContext.SaveChanges();
         }
 
         public void CompleteWithTransaction()
         {
-
             using (var dbDcontextTransaction = dbContext.Database.BeginTransaction())
             {
                 try
@@ -56,6 +60,7 @@ namespace SimApi.Data.UnitOfWork
                 }
             }
         }
+
 
         private void Clean(bool disposing)
         {
@@ -75,6 +80,6 @@ namespace SimApi.Data.UnitOfWork
             Clean(true);
         }
 
-        
+
     }
 }

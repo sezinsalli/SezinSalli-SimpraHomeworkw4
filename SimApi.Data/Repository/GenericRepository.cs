@@ -34,6 +34,10 @@ namespace SimApi.Data.Repository
             return dbContext.Set<Entity>().ToList();
         }
 
+        public List<Entity> GetAllAsNoTracking()
+        {
+            return dbContext.Set<Entity>().AsNoTracking().ToList();
+        }
         public Entity GetById(int id)
         {
             return dbContext.Set<Entity>().Find(id);

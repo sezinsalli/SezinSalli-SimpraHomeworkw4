@@ -1,103 +1,99 @@
-﻿using SimApi.Base.Model;
-using SimApi.Data.Domain;
+﻿using Dapper;
+using Microsoft.AspNetCore.Mvc.Filters;
+using SimApi.Base.Model;
+using SimApi.Data.Context;
+using SimApi.Data.Repository.Dapper;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SimApi.Data.Repository.Dapper
+public class DapperRepository<TEntity> : IDapperRepository<TEntity> where TEntity : BaseModel
 {
-    public class DapperRepository<Entity> : IDapperRepository<Entity> where Entity : BaseModel
+    private readonly IDbConnection connection;
+
+    public DapperRepository(SimDapperDbContext dbContext)
     {
-        protected readonly SimDapperDbContext dbContext;
-        private bool disposed;
-        public DapperRepository()
-        {
-            this.dbContext = dbContext;
-        }
-        public void DeleteById(int id)
-        {
-            using (var connection = dbContext.GetConnection())
-            {
-                connection.Open();
-                var query = $"DELETE FROM {GetTableName()} WHERE Id = @Id";
-                connection.Execute(query, new { Id = id });
-            }
-        }
+        this.connection = dbContext.CreateConnection();
+    }
 
-        public List<Entity> Filter(string sql)
-        {
-            using (var connection = dbContext.GetConnection())
-            {
-                connection.Open();
-                return connection.Query<Entity>(sql).ToList();
-            }
-        }
+    public List<TEntity> GetAll()
+    {
+        var tableName = GetTableName();
+        var query = $"SELECT * FROM {tableName}";
+        return connection.Query<TEntity>(query).ToList();
+    }
 
-        public List<Entity> GetAll()
-        {
-            using (var connection = dbContext.GetConnection())
-            {
-                connection.Open();
-                var query = $"SELECT * FROM {GetTableName()}";
-                return connection.Query<Entity>(query).ToList();
-            }
-        }
+    public List<TEntity> Filter(string sql)
+    {
+        return connection.Query<TEntity>(sql).ToList();
+    }
 
-        public Entity GetById(int id)
-        {
-            using (var connection = dbContext.GetConnection())
-            {
-                connection.Open();
-                var query = $"SELECT * FROM {GetTableName()} WHERE Id = @Id";
-                return connection.QuerySingleOrDefault<Entity>(query, new { Id = id });
-            }
-        }
+    public TEntity GetById(int id)
+    {
+        var tableName = GetTableName();
+        var query = $"SELECT * FROM {tableName} WHERE Id = @Id";
+        return connection.QueryFirstOrDefault<TEntity>(query, new { Id = id });
+    }
 
-        public void Insert(Entity entity)
-        {
-            using (var connection = dbContext.GetConnection())
-            {
-                connection.Open();
-                var properties = GetEntityProperties(entity);
-                var query = $"INSERT INTO {GetTableName()} ({string.Join(", ", properties.Keys)}) " +
-                            $"VALUES (@{string.Join(", @", properties.Keys)})";
-                connection.Execute(query, entity);
-            }
-        }
+    public void Insert(TEntity entity)
+    {
+        var tableName = GetTableName();
+        var columns = GetColumns(entity);
+        var values = GetValues(entity);
+        var query = $"INSERT INTO {tableName} ({columns}) VALUES ({values})";
+        connection.Execute(query, entity);
+    }
 
-        public void Update(Entity entity)
-        {
-            using (var connection = dbContext.GetConnection())
-            {
-                connection.Open();
-                var properties = GetEntityProperties(entity);
-                var updateColumns = properties.Keys.Select(key => $"{key} = @{key}");
-                var query = $"UPDATE {GetTableName()} SET {string.Join(", ", updateColumns)} WHERE Id = @Id";
-                connection.Execute(query, entity);
-            }
-        }
-        private string GetTableName()
-        {
-            var tableNameAttribute = typeof(Entity).GetCustomAttributes(typeof(TableNameAttribute), true)
-                                                  .FirstOrDefault() as TableNameAttribute;
-            return tableNameAttribute?.TableName ?? typeof(Entity).Name;
-        }
+    public void Update(TEntity entity)
+    {
+        var tableName = GetTableName();
+        var updateValues = GetUpdateValues(entity);
+        var query = $"UPDATE {tableName} SET {updateValues} WHERE Id = @Id";
+        connection.Execute(query, entity);
+    }
 
-        private Dictionary<string, object> GetEntityProperties(Entity entity)
+    public void DeleteById(int id)
+    {
+        var tableName = GetTableName();
+        var query = $"DELETE FROM {tableName} WHERE Id = @Id";
+        connection.Execute(query, new { Id = id });
+    }
+
+    private string GetTableName()
+    {
+        var entityType = typeof(TEntity);
+        var tableAttribute = entityType.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault() as TableAttribute;
+        if (tableAttribute != null && !string.IsNullOrEmpty(tableAttribute.Schema))
         {
-            var properties = new Dictionary<string, object>();
-            var entityType = entity.GetType();
-            var entityProperties = entityType.GetProperties();
-
-            foreach (var property in entityProperties)
-            {
-                var value = property.GetValue(entity);
-                properties[property.Name] = value;
-            }
-
-            return properties;
+            return $"{tableAttribute.Schema}.{tableAttribute.Name}";
         }
+        else if (tableAttribute != null)
+        {
+            return tableAttribute.Name;
+        }
+        else
+        {
+            return entityType.Name;
+        }
+    }
+
+    private string GetColumns(TEntity entity)
+    {
+        var properties = entity.GetType().GetProperties();
+        return string.Join(", ", properties.Select(p => p.Name));
+    }
+
+    private string GetValues(TEntity entity)
+    {
+        var properties = entity.GetType().GetProperties();
+        return string.Join(", ", properties.Select(p => $"@{p.Name}"));
+    }
+
+    private string GetUpdateValues(TEntity entity)
+    {
+        var properties = entity.GetType().GetProperties();
+        return string.Join(", ", properties.Select(p => $"{p.Name} = @{p.Name}"));
     }
 }

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using SimApi.Data.Domain;
+using SimApi.Schema.AccountRR;
 using SimApi.Schema.CategoryRR;
-
+using SimApi.Schema.CustomerRR;
 using SimApi.Schema.ProductRR;
 using SimApi.Schema.UserRR;
 using System;
@@ -24,6 +25,15 @@ namespace SimApi.Schema.Mapper
 
             CreateMap<User, UserResponse>();
             CreateMap<UserRequest, User >();
+
+            CreateMap<Customer, CustomerResponse>();
+            CreateMap<CustomerRequest, Customer>();
+
+            CreateMap<Account, AccountResponse>();
+            CreateMap<AccountRequest, Account>();
+
+            //CreateMap<Transaction, TransactionResponse>();
+            //CreateMap<TransactionView, TransactionViewResponse>();
         }
     }
 }

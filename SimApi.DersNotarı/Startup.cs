@@ -32,8 +32,9 @@ namespace SimApi.DersNotarı
         {
 
             services.AddControllers();
+            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
             //1.adım için
-            services.AddCustomSwaggerExtension();
+            services.AddSwaggerGen();
             services.AddDbContextExtension(Configuration);
             services.AddScoped<IUnitofWork,UnitOfWork>();
             services.AddMapperExtension();

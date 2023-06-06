@@ -2,6 +2,7 @@
 using SimApi.Data.Context;
 using SimApi.Data.Domain;
 using SimApi.Data.Repository;
+using SimApi.Data.Repository.Dapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,11 @@ namespace SimApi.Data.UnitOfWork
 {
     public interface IUnitofWork : IDisposable
     {
-        IGenericRepository<Category> CategoryRepository { get; }      
+        
+        
+        
+
+        IDapperRepository<Entity> DapperRepository<Entity>() where Entity : BaseModel;
         IGenericRepository<Entity> Repository<Entity>() where Entity : BaseModel;
 
         void Complete();

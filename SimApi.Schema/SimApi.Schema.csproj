@@ -8,4 +8,8 @@
     <ProjectReference Include="..\SimApi.Data\SimApi.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TransactionRR\" />
+  </ItemGroup>
+
 </Project>

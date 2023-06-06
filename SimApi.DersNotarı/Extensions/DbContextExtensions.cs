@@ -27,7 +27,7 @@ namespace SimApi.DersNotarı.Extensions
                   opts.UseNpgsql(dbConfig));
             }
 
-            //services.AddScoped<SimDapperDbContext>();
+            services.AddScoped<SimDapperDbContext>();
         }
     }
 }

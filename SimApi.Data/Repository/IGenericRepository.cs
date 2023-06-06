@@ -16,6 +16,7 @@ namespace SimApi.Data.Repository
         void DeleteById(int id);
         void Delete(Entity entity);
         List<Entity> GetAll();
+        List<Entity> GetAllAsNoTracking();
         IEnumerable<Entity> Where(Expression<Func<Entity, bool>> expression);
         Entity GetByIdAsNoTracking(int id);
     }

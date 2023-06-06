@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SimApi.Base.Attribute;
+using SimApi.Base.Role;
 using System.Data;
 using System.Linq;
 using System.Security.Claims;
@@ -48,14 +49,14 @@ namespace SimApi.sDersNotarı.Token
         }
 
         [HttpGet("AdminEditor")]
-        [Authorize(Roles = $"{Role.Editor},{Role.Admin}")]
+        [Authorize(Roles = Role.Editor + "," + Role.Admin)]
         public string AdminEditor()
         {
             return "AdminEditor";
         }
 
         [HttpGet("ViewerEditor")]
-        [Authorize(Roles = $"{Role.Viewer},{Role.Editor}")]
+        [Authorize(Roles = Role.Editor + "," + Role.Admin)]
         public string ViewerEditor()
         {
             return "ViewerEditor";

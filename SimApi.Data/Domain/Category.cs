@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimApi.Data.Domain
 {
-    [TableName("Categories")]
+    [Table("Category", Schema = "dbo")]
     public class Category : BaseModel
     {
         public string Name { get; set; }
@@ -33,13 +33,5 @@ namespace SimApi.Data.Domain
             builder.HasIndex(x => x.Name).IsUnique(true);
         }
     }
-    public class TableNameAttribute : Attribute
-    {
-        public string TableName { get; }
-
-        public TableNameAttribute(string tableName)
-        {
-            TableName = tableName;
-        }
-    }
+   
 }

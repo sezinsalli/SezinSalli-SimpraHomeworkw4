@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimApi.Base\SimApi.Base.csproj" />
     <ProjectReference Include="..\SimApi.Data\SimApi.Data.csproj" />
     <ProjectReference Include="..\SimApi.Schema\SimApi.Schema.csproj" />
   </ItemGroup>

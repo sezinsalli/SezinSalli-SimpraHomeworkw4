@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimApi.Data.Repository
+namespace SimApi.Data.Repository.Dapper
 {
-    public interface ICategoryRepository : IGenericRepository<Category>
+    public interface IDapperAccountRepository : IDapperRepository<Account>
     {
-
-
     }
 }
