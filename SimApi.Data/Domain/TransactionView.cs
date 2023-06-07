@@ -6,8 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SimApi.Data.Domain;
 
-namespace SimApi.Data.Domain
+namespace SimApi.Data.Domain 
 {
     [Table("vTransactionReport", Schema = "dbo")]
     public class TransactionView
@@ -30,31 +31,33 @@ namespace SimApi.Data.Domain
         public string LastName { get; set; }
 
     }
+}
 
 
-    public class TransactionViewConfiguration : IEntityTypeConfiguration<TransactionView>
+
+
+public class TransactionViewConfiguration : IEntityTypeConfiguration<TransactionView>
+{
+    public void Configure(EntityTypeBuilder<TransactionView> builder)
     {
-        public void Configure(EntityTypeBuilder<TransactionView> builder)
-        {
-            builder.ToView("vTransactionReport");
+        builder.ToView("vTransactionReport");
 
-            builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.AccountId).IsRequired(true);
-            builder.Property(x => x.Amount).IsRequired(true).HasPrecision(15, 2).HasDefaultValue(0);
-            builder.Property(x => x.Description).IsRequired(true).HasMaxLength(30);
-            builder.Property(x => x.Direction).IsRequired(true);
-            builder.Property(x => x.TransactionDate).IsRequired(true);
-            builder.Property(x => x.ReferenceNumber).HasMaxLength(50).IsRequired(true);
-            builder.Property(x => x.TransactionCode).HasMaxLength(50).IsRequired(true);
+        builder.Property(x => x.AccountId).IsRequired(true);
+        builder.Property(x => x.Amount).IsRequired(true).HasPrecision(15, 2).HasDefaultValue(0);
+        builder.Property(x => x.Description).IsRequired(true).HasMaxLength(30);
+        builder.Property(x => x.Direction).IsRequired(true);
+        builder.Property(x => x.TransactionDate).IsRequired(true);
+        builder.Property(x => x.ReferenceNumber).HasMaxLength(50).IsRequired(true);
+        builder.Property(x => x.TransactionCode).HasMaxLength(50).IsRequired(true);
 
-            builder.Property(x => x.CustomerId).IsRequired(true);
-            builder.Property(x => x.AccountNumber).IsRequired(true);
-            builder.Property(x => x.AccountName).IsRequired(true).HasMaxLength(30);
+        builder.Property(x => x.CustomerId).IsRequired(true);
+        builder.Property(x => x.AccountNumber).IsRequired(true);
+        builder.Property(x => x.AccountName).IsRequired(true).HasMaxLength(30);
 
-            builder.Property(x => x.FirstName).IsRequired(true).HasMaxLength(30);
-            builder.Property(x => x.LastName).IsRequired(true).HasMaxLength(30);
-            builder.Property(x => x.CustomerNumber).IsRequired(true).HasDefaultValue(0);
-        }
+        builder.Property(x => x.FirstName).IsRequired(true).HasMaxLength(30);
+        builder.Property(x => x.LastName).IsRequired(true).HasMaxLength(30);
+        builder.Property(x => x.CustomerNumber).IsRequired(true).HasDefaultValue(0);
     }
 }

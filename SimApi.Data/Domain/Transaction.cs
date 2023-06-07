@@ -2,11 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using SimApi.Base.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SimApi.Data.Domain;
 
 namespace SimApi.Data.Domain
 {
@@ -24,27 +21,28 @@ namespace SimApi.Data.Domain
         public string ReferenceNumber { get; set; }
         public string TransactionCode { get; set; }
     }
+}
 
-    public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
+
+public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
+{
+    public void Configure(EntityTypeBuilder<Transaction> builder)
     {
-        public void Configure(EntityTypeBuilder<Transaction> builder)
-        {
-            builder.Property(x => x.Id).IsRequired(true).UseIdentityColumn();
-            builder.Property(x => x.CreatedAt).IsRequired(false);
-            builder.Property(x => x.CreatedBy).IsRequired(false).HasMaxLength(30);
-            builder.Property(x => x.UpdatedAt).IsRequired(false);
-            builder.Property(x => x.UpdatedBy).IsRequired(false).HasMaxLength(30);
+        builder.Property(x => x.Id).IsRequired(true).UseIdentityColumn();
+        builder.Property(x => x.CreatedAt).IsRequired(false);
+        builder.Property(x => x.CreatedBy).IsRequired(false).HasMaxLength(30);
+        builder.Property(x => x.UpdatedAt).IsRequired(false);
+        builder.Property(x => x.UpdatedBy).IsRequired(false).HasMaxLength(30);
 
-            builder.Property(x => x.AccountId).IsRequired(true);
-            builder.Property(x => x.Amount).IsRequired(true).HasPrecision(15, 2).HasDefaultValue(0);
-            builder.Property(x => x.Description).IsRequired(true).HasMaxLength(30);
-            builder.Property(x => x.Direction).IsRequired(true);
-            builder.Property(x => x.TransactionDate).IsRequired(true);
-            builder.Property(x => x.ReferenceNumber).HasMaxLength(50).IsRequired(true);
-            builder.Property(x => x.TransactionCode).HasMaxLength(50).IsRequired(true);
+        builder.Property(x => x.AccountId).IsRequired(true);
+        builder.Property(x => x.Amount).IsRequired(true).HasPrecision(15, 2).HasDefaultValue(0);
+        builder.Property(x => x.Description).IsRequired(true).HasMaxLength(30);
+        builder.Property(x => x.Direction).IsRequired(true);
+        builder.Property(x => x.TransactionDate).IsRequired(true);
+        builder.Property(x => x.ReferenceNumber).HasMaxLength(50).IsRequired(true);
+        builder.Property(x => x.TransactionCode).HasMaxLength(50).IsRequired(true);
 
-            builder.HasIndex(x => x.ReferenceNumber);
-            builder.HasIndex(x => x.AccountId);
-        }
+        builder.HasIndex(x => x.ReferenceNumber);
+        builder.HasIndex(x => x.AccountId);
     }
 }

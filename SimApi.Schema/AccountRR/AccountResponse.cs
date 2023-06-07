@@ -1,4 +1,5 @@
 ﻿using SimApi.Base.Model;
+using SimApi.Schema.TransactıonRR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,6 @@ namespace SimApi.Schema.AccountRR
         public decimal Balance { get; set; }
         public bool IsValid { get; set; }
 
-       // public List<TransactionResponse> Transactions { get; set; }
+        public List<TransactionResponse> Transactions { get; set; }
     }
 }

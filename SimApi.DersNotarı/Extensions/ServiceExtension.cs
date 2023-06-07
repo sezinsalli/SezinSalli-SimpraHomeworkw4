@@ -13,7 +13,7 @@ namespace SimApi.sDersNotarı.Extensions
             services.AddScoped<IUserLogService, UserLogService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             //services.AddScoped<IAccountService, AccountService>();
             //services.AddScoped<ITransactionService, TransactionService>();
 
