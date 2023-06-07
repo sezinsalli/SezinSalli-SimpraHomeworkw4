@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SimApi.Base.Attribute;
+using SimApi.Base.AttributeR;
 using SimApi.Base.Response;
 using SimApi.Operation.Services;
 using SimApi.Schema.TransactıonRR;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 namespace SimApi.sDersNotarı.Controllers
 {
+    [EnableMiddlewareLogger]
     [ResponseGuid]
     [Route("simapi/v1/[controller]")]
     [ApiController]

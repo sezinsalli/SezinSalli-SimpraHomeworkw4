@@ -2,6 +2,7 @@
 using SimApi.Operation.DapperS;
 using SimApi.Operation.Services;
 using SimApi.Operation.Token;
+using SimApi.sDersNotarı.CustomService;
 
 namespace SimApi.sDersNotarı.Extensions
 {
@@ -23,7 +24,9 @@ namespace SimApi.sDersNotarı.Extensions
             services.AddScoped(typeof(IDapperService<,,>), typeof(DapperService<,,>));
 
 
-
+            services.AddScoped<ScopedService>();
+            services.AddTransient<TransientService>();
+            services.AddSingleton<SingletonService>();
 
 
 

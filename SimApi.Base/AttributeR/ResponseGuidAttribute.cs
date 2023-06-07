@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimApi.Base.Attribute
+namespace SimApi.Base.AttributeR
 {
     public class ResponseGuidAttribute : ActionFilterAttribute
     {

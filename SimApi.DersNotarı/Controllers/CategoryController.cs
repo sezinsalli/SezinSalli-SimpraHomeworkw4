@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SimApi.Base.AttributeR;
 using SimApi.Base.Model;
 using SimApi.Base.Response;
 using SimApi.Data.Domain;
@@ -9,6 +10,8 @@ using System.Collections.Generic;
 
 namespace SimApi.sDersNotarı.Controllers
 {
+    [EnableMiddlewareLogger]
+    [ResponseGuid]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

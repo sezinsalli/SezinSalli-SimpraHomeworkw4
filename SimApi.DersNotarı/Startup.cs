@@ -13,6 +13,8 @@ using SimApi.Base.Logger;
 using SimApi.Data.UnitOfWork;
 using SimApi.DersNotarı.Extensions;
 using SimApi.sDersNotarı.Extensions;
+using SimApi.sDersNotarı.Middleware;
+using SimApi.Service.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +44,7 @@ namespace SimApi.DersNotarı
             services.AddMapperExtension();
             services.AddRepositoryExtension();
             services.AddServiceExtension();
-            services.AddJwtExtension();
+            //services.AddJwtExtension();
 
         }
 
@@ -56,6 +58,10 @@ namespace SimApi.DersNotarı
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimApi.DersNotarı v1"));
             }
 
+            app.UseMiddleware<HeartBeatMiddleware>();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+            
+
             Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
             {
                 Log.Information("-------------Request-Begin------------");
@@ -64,11 +70,13 @@ namespace SimApi.DersNotarı
                 Log.Information(requestProfilerModel.Response);
                 Log.Information("-------------Request-End------------");
             };
+            app.UseMiddleware<RequestLoggingMiddleware>(requestResponseHandler);
 
             app.UseHttpsRedirection();
 
+            // add auth 
+            app.UseAuthentication();
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
