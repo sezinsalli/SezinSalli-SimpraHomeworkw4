@@ -19,13 +19,15 @@ namespace SimApi.Data.UnitOfWork
 
         public IDapperRepository<Account> DapperAccountRepository { get; private set; }
 
+        public ITransactionReportRepository TransactionReportRepository { get; private set; }
+
         public UnitOfWork(SimDbContext dbContext, SimDapperDbContext dapperDbContex)
         {
             this.dbContext = dbContext;
             this.dapperDbContext = dapperDbContex;
 
             DapperAccountRepository = new DapperAccountRepository(dapperDbContext);
-
+            TransactionReportRepository = new TransactionReportRepository(dbContext);
         }
 
         public IDapperRepository<Entity> DapperRepository<Entity>() where Entity : BaseModel

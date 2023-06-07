@@ -17,6 +17,10 @@ namespace SimApi.Data.UnitOfWork
         IDapperRepository<Entity> DapperRepository<Entity>() where Entity : BaseModel;
         IGenericRepository<Entity> Repository<Entity>() where Entity : BaseModel;
 
+
+        ITransactionReportRepository TransactionReportRepository { get; }
+
+
         void Complete();
         void CompleteWithTransaction();
 

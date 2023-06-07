@@ -15,7 +15,9 @@ namespace SimApi.sDersNotarı.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IAccountService, AccountService>();
-            //services.AddScoped<ITransactionService, TransactionService>();
+
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<ITransactionReportService, TransactionReportService>();
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped(typeof(IDapperService<,,>), typeof(DapperService<,,>));
