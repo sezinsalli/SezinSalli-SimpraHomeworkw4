@@ -13,10 +13,7 @@ namespace SimApi.Data.UnitOfWork
 {
     public interface IUnitofWork : IDisposable
     {
-        
-        
-        
-
+       IDapperRepository<Account> DapperAccountRepository { get; }
         IDapperRepository<Entity> DapperRepository<Entity>() where Entity : BaseModel;
         IGenericRepository<Entity> Repository<Entity>() where Entity : BaseModel;
 

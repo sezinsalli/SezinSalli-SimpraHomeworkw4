@@ -4,12 +4,9 @@ using SimApi.Schema.AccountRR;
 using SimApi.Schema.CategoryRR;
 using SimApi.Schema.CustomerRR;
 using SimApi.Schema.ProductRR;
+using SimApi.Schema.TransactıonRR;
 using SimApi.Schema.UserRR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SimApi.Schema.Mapper
 {
@@ -32,8 +29,8 @@ namespace SimApi.Schema.Mapper
             CreateMap<Account, AccountResponse>();
             CreateMap<AccountRequest, Account>();
 
-            //CreateMap<Transaction, TransactionResponse>();
-            //CreateMap<TransactionView, TransactionViewResponse>();
+            CreateMap<Transaction, TransactionResponse>();
+            CreateMap<TransactionView, TransactionViewResponse>();
         }
     }
 }

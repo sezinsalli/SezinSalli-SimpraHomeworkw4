@@ -13,21 +13,19 @@ namespace SimApi.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitofWork
     {
-        
-        
-
-
         private readonly SimDbContext dbContext;
         private readonly SimDapperDbContext dapperDbContext;
         private bool disposed;
+
+        public IDapperRepository<Account> DapperAccountRepository { get; private set; }
 
         public UnitOfWork(SimDbContext dbContext, SimDapperDbContext dapperDbContex)
         {
             this.dbContext = dbContext;
             this.dapperDbContext = dapperDbContex;
 
-            
-           
+            DapperAccountRepository = new DapperAccountRepository(dapperDbContext);
+
         }
 
         public IDapperRepository<Entity> DapperRepository<Entity>() where Entity : BaseModel
