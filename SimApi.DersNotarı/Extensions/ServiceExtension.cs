@@ -22,7 +22,7 @@ namespace SimApi.sDersNotarı.Extensions
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped(typeof(IDapperService<,,>), typeof(DapperService<,,>));
-
+            services.AddScoped<IDapperAccountService, DapperAccountService>();
 
             services.AddScoped<ScopedService>();
             services.AddTransient<TransientService>();

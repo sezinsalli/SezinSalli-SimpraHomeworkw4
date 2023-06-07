@@ -28,6 +28,7 @@ namespace SimApi.Data.UnitOfWork
 
             DapperAccountRepository = new DapperAccountRepository(dapperDbContext);
             TransactionReportRepository = new TransactionReportRepository(dbContext);
+
         }
 
         public IDapperRepository<Entity> DapperRepository<Entity>() where Entity : BaseModel

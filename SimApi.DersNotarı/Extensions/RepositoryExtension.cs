@@ -13,11 +13,13 @@ namespace SimApi.sDersNotarı.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITransactionReportRepository, TransactionReportRepository>();
+
+            
             
 
 
             services.AddScoped(typeof(IDapperRepository<>), typeof(DapperRepository<>));
-
+            
 
         }
     }
