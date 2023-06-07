@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SimApi.Base.Jwt;
+using SimApi.Base.Logger;
 using SimApi.Data.UnitOfWork;
 using SimApi.DersNotarı.Extensions;
 using SimApi.sDersNotarı.Extensions;
@@ -53,6 +55,15 @@ namespace SimApi.DersNotarı
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimApi.DersNotarı v1"));
             }
+
+            Action<RequestProfilerModel> requestResponseHandler = requestProfilerModel =>
+            {
+                Log.Information("-------------Request-Begin------------");
+                Log.Information(requestProfilerModel.Request);
+                Log.Information(Environment.NewLine);
+                Log.Information(requestProfilerModel.Response);
+                Log.Information("-------------Request-End------------");
+            };
 
             app.UseHttpsRedirection();
 
