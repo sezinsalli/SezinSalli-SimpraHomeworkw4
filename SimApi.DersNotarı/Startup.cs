@@ -45,6 +45,7 @@ namespace SimApi.DersNotarı
             services.AddRepositoryExtension();
             services.AddServiceExtension();
             //services.AddJwtExtension();
+            services.AddCustomSwaggerExtension();
 
         }
 
@@ -54,6 +55,7 @@ namespace SimApi.DersNotarı
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimApi.DersNotarı v1"));
             }
