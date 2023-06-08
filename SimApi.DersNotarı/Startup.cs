@@ -1,12 +1,10 @@
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using SimApi.Base.Jwt;
 using SimApi.Base.Logger;
@@ -16,9 +14,7 @@ using SimApi.sDersNotarı.Extensions;
 using SimApi.sDersNotarı.Middleware;
 using SimApi.Service.Middleware;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace SimApi.DersNotarı
 {
@@ -36,6 +32,8 @@ namespace SimApi.DersNotarı
         {
 
             services.AddControllers();
+
+            JwtConfig = Configuration.GetSection("JwtConfig").Get<JwtConfig>();
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
             //1.adım için
             services.AddSwaggerGen();
@@ -46,6 +44,7 @@ namespace SimApi.DersNotarı
             services.AddServiceExtension();
             services.AddJwtExtension();
             services.AddCustomSwaggerExtension();
+
 
         }
 
@@ -59,6 +58,9 @@ namespace SimApi.DersNotarı
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimApi.DersNotarı v1"));
             }
+
+            
+            //DI
 
             app.UseMiddleware<HeartBeatMiddleware>();
             app.UseMiddleware<ErrorHandlerMiddleware>();
