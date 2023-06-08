@@ -44,7 +44,7 @@ namespace SimApi.DersNotarı
             services.AddMapperExtension();
             services.AddRepositoryExtension();
             services.AddServiceExtension();
-            //services.AddJwtExtension();
+            services.AddJwtExtension();
             services.AddCustomSwaggerExtension();
 
         }
