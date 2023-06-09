@@ -13,7 +13,7 @@ namespace SimApi.Data.Repository
         protected readonly SimDbContext dbContext;
         public TransactionReportRepository(SimDbContext context) 
         {
-            this.dbContext = dbContext;
+            this.dbContext = context;
         }
         public List<TransactionView> GetAll()
         {

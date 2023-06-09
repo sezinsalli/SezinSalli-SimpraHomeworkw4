@@ -1,5 +1,3 @@
-using Autofac.Extensions.DependencyInjection;
-using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +8,7 @@ using SimApi.Base.Jwt;
 using SimApi.Base.Logger;
 using SimApi.Data.UnitOfWork;
 using SimApi.DersNotarı.Extensions;
+using SimApi.Operation.Services;
 using SimApi.sDersNotarı.Extensions;
 using SimApi.sDersNotarı.Middleware;
 using SimApi.Service.Middleware;
@@ -25,6 +24,7 @@ namespace SimApi.DersNotarı
             Configuration = configuration;
         }
 
+        
         public IConfiguration Configuration { get; }
         public static JwtConfig JwtConfig { get; private set; }
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,13 +38,20 @@ namespace SimApi.DersNotarı
             //1.adım için
             services.AddSwaggerGen();
             services.AddDbContextExtension(Configuration);
-            services.AddScoped<IUnitofWork,UnitOfWork>();
+
+            
+
+            //services.AddScoped<IUnitofWork,UnitOfWork>();
             services.AddMapperExtension();
-            services.AddRepositoryExtension();
-            services.AddServiceExtension();
+            
+            //services.AddRepositoryExtension();
+            //services.AddServiceExtension();
+            
             services.AddJwtExtension();
             services.AddCustomSwaggerExtension();
 
+            //services.AddScoped<ITransactionService, TransactionService>();
+            //services.AddScoped<ITransactionReportService, TransactionReportService>();
 
         }
 
@@ -61,6 +68,8 @@ namespace SimApi.DersNotarı
 
             
             //DI
+
+            
 
             app.UseMiddleware<HeartBeatMiddleware>();
             app.UseMiddleware<ErrorHandlerMiddleware>();
